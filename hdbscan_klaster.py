@@ -24,10 +24,42 @@ st.markdown(
         color: black !important;
     }
 
-    /* Sidebar dengan warna abu-abu terang */
+    /* Sidebar dengan warna hijau */
     section[data-testid="stSidebar"] {
-        background-color: #f5f5f5 !important;
-        color: black !important;
+        background: linear-gradient(135deg, #2ecc71, #27ae60) !important; 
+        color: white !important;
+    }
+
+    /* Elemen teks di sidebar */
+    section[data-testid="stSidebar"] * {
+        color: white !important;
+    }
+
+    /* Radio button navigasi */
+    div[data-testid="stSidebar"] div[role="radiogroup"] > label {
+        display: block;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 8px 15px;
+        margin: 5px 0;
+        border-radius: 8px;
+        font-weight: 600;
+        color: white !important;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        transition: all 0.3s ease;
+    }
+
+    /* Hover effect navigasi */
+    div[data-testid="stSidebar"] div[role="radiogroup"] > label:hover {
+        background: rgba(255, 255, 255, 0.25);
+        cursor: pointer;
+    }
+
+    /* Navigasi aktif (dipilih) */
+    div[data-testid="stSidebar"] div[role="radiogroup"] > label[data-checked="true"] {
+        background: white !important;
+        color: #27ae60 !important;
+        font-weight: 700;
+        border: 1px solid #27ae60;
     }
 
     /* Elemen markdown seperti teks dan paragraf jadi hitam */
@@ -461,4 +493,5 @@ elif menu == 'Klasterisasi':
                 # Download hasil klasterisasi
                 merged_df = df[['kode', 'Cluster']]
                 csv = merged_df.to_csv(index=False)
+
                 st.download_button("⬇️ Download Hasil Klasterisasi", csv, "hasil_klaster.csv", "text/csv")
