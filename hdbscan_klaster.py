@@ -342,7 +342,7 @@ elif menu == 'Klasterisasi':
                 elif plot_type == "Scatter Plot":
                     # PCA untuk reduksi dimensi
                     pca = PCA(n_components=2)
-                    reduced = pca.fit_transform(data)
+                    reduced = pca.fit_transform(X_scaled)
                     
                     plt.figure(figsize=(12, 8))
                     unique_labels = set(cluster_labels)
@@ -547,6 +547,7 @@ elif menu == 'Klasterisasi':
                 csv = merged_df.to_csv(index=False)
 
                 st.download_button("⬇️ Download Hasil Klasterisasi", csv, "hasil_klaster.csv", "text/csv")
+
 
 
 
