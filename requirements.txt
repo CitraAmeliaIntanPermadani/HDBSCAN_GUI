@@ -4,6 +4,7 @@ numpy
 hdbscan
 matplotlib
 seaborn
-sklearn
+scikit-learn
 scipy
+pip
 pickle
