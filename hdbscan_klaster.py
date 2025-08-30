@@ -339,14 +339,49 @@ elif menu == 'Klasterisasi':
                     st.pyplot(fig, use_container_width=False)
                 
                 elif plot_type == "Scatter Plot":
-                    # Buat scatter plot hasil clustering
-                    st.subheader("🔵 Visualisasi Scatter Plot dari HDBSCAN")
-                    plt.figure(figsize=(6, 4))
-                    plt.scatter(X[:, 0], X[:, 1], c=clusterer.labels_, cmap="RdYlGn", s=50)
-                    plt.title("Scatter Plot Clustering")
-                    plt.xlabel("Fitur 1")
-                    plt.ylabel("Fitur 2")
-                    st.pyplot(plt.gcf(), use_container_width=False)
+                    # PCA untuk reduksi dimensi
+                    pca = PCA(n_components=2)
+                    reduced = pca.fit_transform(data)
+                    
+                    plt.figure(figsize=(12, 8))
+                    unique_labels = set(cluster_labels)
+                    palette = sns.color_palette("Set2", len(unique_labels) - (1 if -1 in unique_labels else 0))
+                    
+                    for label in unique_labels:
+                        idx = cluster_labels == label
+                        points = reduced[idx]
+                    
+                        if label == -1:
+                            # Noise
+                            plt.scatter(points[:, 0], points[:, 1], s=100, c='gray', 
+                                        label='Noise', edgecolor='k', alpha=0.6)
+                        else:
+                            color = palette[label]
+                            plt.scatter(points[:, 0], points[:, 1], s=60, color=color, 
+                                        edgecolor='k', label=f'Klaster {label}', alpha=0.9)
+                    
+                            if len(points) >= 3:
+                                hull = ConvexHull(points)
+                                hull_points = points[hull.vertices]
+                                polygon = Polygon(hull_points, closed=True, facecolor=color, 
+                                                  alpha=0.2, edgecolor=color, linewidth=2)
+                                plt.gca().add_patch(polygon)
+                    
+                    # Tambahan estetika seperti peta
+                    plt.gca().set_facecolor('#f7f7f7')
+                    plt.title("Distribusi Klaster HDBSCAN", fontsize=14, pad=20)  # pakai pad untuk jarak
+                    plt.xlabel("Komponen 1", fontsize=12)
+                    plt.ylabel("Komponen 2", fontsize=12)
+                    plt.xticks([])
+                    plt.yticks([])
+                    plt.box(True)
+                    plt.legend(title='Klaster', loc='best')
+                    
+                    # Atur jarak atas
+                    plt.subplots_adjust(top=0.9)  # 0.9 bisa diganti 0.85/0.95 sesuai kebutuhan
+                    
+                    plt.tight_layout()
+                    st.pyplot(fig)
 
                 from branca.colormap import LinearColormap
 
@@ -511,6 +546,7 @@ elif menu == 'Klasterisasi':
                 csv = merged_df.to_csv(index=False)
 
                 st.download_button("⬇️ Download Hasil Klasterisasi", csv, "hasil_klaster.csv", "text/csv")
+
 
 
 
