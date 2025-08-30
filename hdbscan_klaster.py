@@ -345,7 +345,7 @@ elif menu == 'Klasterisasi':
                     reduced = pca.fit_transform(X_scaled)
                     
                     plt.figure(figsize=(12, 8))
-                    unique_labels = set(cluster_labels)
+                    unique_labels = set(labels)
                     palette = sns.color_palette("Set2", len(unique_labels) - (1 if -1 in unique_labels else 0))
                     
                     for label in unique_labels:
@@ -547,6 +547,7 @@ elif menu == 'Klasterisasi':
                 csv = merged_df.to_csv(index=False)
 
                 st.download_button("⬇️ Download Hasil Klasterisasi", csv, "hasil_klaster.csv", "text/csv")
+
 
 
 
