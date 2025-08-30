@@ -1,0 +1,9 @@
+streamlit
+pandas
+numpy
+hdbscan
+matplotlib
+seaborn
+sklearn
+scipy
+pickle
