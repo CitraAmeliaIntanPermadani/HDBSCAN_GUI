@@ -13,7 +13,7 @@ import plotly.express as px
 from sklearn.metrics import silhouette_score
 from sklearn.neighbors import LocalOutlierFactor
 
-st.set_page_config(layout="wide")
+st.set_page_config(page_title="HDBSCAN Clustering", layout="wide")
 
 st.markdown(
     """
@@ -495,4 +495,5 @@ elif menu == 'Klasterisasi':
                 csv = merged_df.to_csv(index=False)
 
                 st.download_button("⬇️ Download Hasil Klasterisasi", csv, "hasil_klaster.csv", "text/csv")
+
 
