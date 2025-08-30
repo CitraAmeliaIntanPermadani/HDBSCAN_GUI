@@ -12,5 +12,6 @@ folium
 requests
 branca
 plotly
+streamlit_folium
 
 
