@@ -24,9 +24,9 @@ st.markdown(
         color: black !important;
     }
 
-    /* Sidebar dengan warna hijau */
+   /* Sidebar dengan warna gradasi hijau → oranye → merah */
     section[data-testid="stSidebar"] {
-        background: linear-gradient(135deg, #2ecc71, #27ae60) !important; 
+        background: linear-gradient(135deg, #2ecc71, #f39c12, #e74c3c) !important; 
         color: white !important;
     }
 
@@ -495,3 +495,4 @@ elif menu == 'Klasterisasi':
                 csv = merged_df.to_csv(index=False)
 
                 st.download_button("⬇️ Download Hasil Klasterisasi", csv, "hasil_klaster.csv", "text/csv")
+
