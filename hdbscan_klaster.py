@@ -349,7 +349,7 @@ elif menu == 'Klasterisasi':
                     palette = sns.color_palette("Set2", len(unique_labels) - (1 if -1 in unique_labels else 0))
                     
                     for label in unique_labels:
-                        idx = cluster_labels == label
+                        idx = labels == label
                         points = reduced[idx]
                     
                         if label == -1:
@@ -547,6 +547,7 @@ elif menu == 'Klasterisasi':
                 csv = merged_df.to_csv(index=False)
 
                 st.download_button("⬇️ Download Hasil Klasterisasi", csv, "hasil_klaster.csv", "text/csv")
+
 
 
 
