@@ -325,12 +325,28 @@ elif menu == 'Klasterisasi':
                 n_clusters = len(set(labels)) - (1 if -1 in labels else 0)
                 st.success(f"✅ Jumlah Klaster Terbentuk: {n_clusters}")
 
-                #Buat plot pohon dari hasil clustering
-                st.subheader("🌳 Visualisasi Condensed Tree dari HDBSCAN")
-                plt.figure(figsize=(6, 4))
-                clusterer.condensed_tree_.plot(select_clusters=True, selection_palette=sns.color_palette("deep"))
-                fig = plt.gcf()
-                st.pyplot(fig, use_container_width=False)
+                # Pilihan jenis visualisasi
+                st.subheader("📊 Pilih Jenis Visualisasi")
+                plot_type = st.radio("Pilih jenis plot:", ["Tree Plot", "Scatter Plot"])
+                
+                if plot_type == "Tree Plot":
+                    # Buat plot pohon dari hasil clustering
+                    st.subheader("🌳 Visualisasi Condensed Tree dari HDBSCAN")
+                    plt.figure(figsize=(6, 4))
+                    clusterer.condensed_tree_.plot(select_clusters=True, 
+                                                   selection_palette=sns.color_palette("deep"))
+                    fig = plt.gcf()
+                    st.pyplot(fig, use_container_width=False)
+                
+                elif plot_type == "Scatter Plot":
+                    # Buat scatter plot hasil clustering
+                    st.subheader("🔵 Visualisasi Scatter Plot dari HDBSCAN")
+                    plt.figure(figsize=(6, 4))
+                    plt.scatter(X[:, 0], X[:, 1], c=clusterer.labels_, cmap="RdYlGn", s=50)
+                    plt.title("Scatter Plot Clustering")
+                    plt.xlabel("Fitur 1")
+                    plt.ylabel("Fitur 2")
+                    st.pyplot(plt.gcf(), use_container_width=False)
 
                 from branca.colormap import LinearColormap
 
@@ -495,5 +511,6 @@ elif menu == 'Klasterisasi':
                 csv = merged_df.to_csv(index=False)
 
                 st.download_button("⬇️ Download Hasil Klasterisasi", csv, "hasil_klaster.csv", "text/csv")
+
 
 
