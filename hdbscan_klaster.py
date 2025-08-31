@@ -466,7 +466,7 @@ elif menu == 'Klasterisasi':
                 st.subheader("🧠 Interpretasi Otomatis Tiap Klaster")
 
                 # Buat list untuk menyimpan interpretasi tiap baris
-                interpretasi_list = []
+                cluster_interpretasi_list = []
 
                 # Hitung max usia produktif sekali saja
                 max_usia = df_combined['Usia Produktif (%)'].max()
@@ -539,15 +539,19 @@ elif menu == 'Klasterisasi':
                     else:
                         interpretasi += "\n➡️ Klaster ini menunjukkan komposisi yang relatif seimbang, namun perlu pemantauan lebih lanjut untuk peningkatan daya saing tenaga kerja."
 
-                    interpretasi_list.append(interpretasi)
+                    cluster_interpretasi_list.append((cluster_id, interpretasi))
                     
                     st.markdown(interpretasi)
 
                 # Download hasil klasterisasi
-                download_df = df_combined[['kode', 'Provinsi', 'Cluster']].copy()
-                download_df['Interpretasi'] = interpretasi_list
+                # Buat dictionary Cluster → Interpretasi
+                cluster_interpretasi_dict = dict(cluster_interpretasi_list)
                 
-                csv = download_df.to_csv(index=False)
+                # Gabungkan ke df per provinsi
+                merged_df = df[['kode', 'Provinsi', 'Cluster']].copy()
+                merged_df['Interpretasi'] = merged_df['Cluster'].map(cluster_interpretasi_dict)
+                                
+                csv = merged_df.to_csv(index=False)
                 st.download_button(
                     "⬇️ Download Hasil Klasterisasi dengan Interpretasi",
                     csv,
@@ -555,6 +559,7 @@ elif menu == 'Klasterisasi':
                     "text/csv"
                 )
                 
+
 
 
 
