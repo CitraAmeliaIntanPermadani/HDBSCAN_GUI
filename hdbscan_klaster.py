@@ -465,26 +465,29 @@ elif menu == 'Klasterisasi':
 
                 st.subheader("🧠 Interpretasi Otomatis Tiap Klaster")
 
+                # Hitung max usia produktif sekali saja
                 max_usia = df_combined['Usia Produktif (%)'].max()
                 
                 for _, row in df_combined.iterrows():
                     cluster_id = int(row['Cluster'])
                     jumlah_prov = int(row['Jumlah Provinsi'])
                 
-                    # Pendidikan agregat
+                    # ===== Pendidikan =====
                     pend_rendah = row['<= SD/MI (%)']
                     pend_menengah_SMP = row['SMP/MTS (%)']
                     pend_menengah_SMA = row['SMA/SMK (%)']
                     pend_tinggi = row['Perguruan Tinggi (%)']
+                
                     pendidikan_agregat = {
                         'rendah': pend_rendah,
                         'menengah SMP': pend_menengah_SMP,
                         'menengah SMA': pend_menengah_SMA,
                         'tinggi': pend_tinggi
                     }
+                
                     kategori_pendidikan = max(pendidikan_agregat, key=pendidikan_agregat.get)
                 
-                    # Usia
+                    # ===== Usia produktif =====
                     usia = row['Usia Produktif (%)']
                     if usia >= 1.0 * max_usia:
                         usia_label = "tinggi"
@@ -493,11 +496,11 @@ elif menu == 'Klasterisasi':
                     else:
                         usia_label = "rendah"
                 
-                    # Sektor dominan
+                    # ===== Sektor dominan =====
                     sektor_cols = ['Primer (%)', 'Sekunder (%)', 'Tersier (%)']
-                    sektor_dominan = max(sektor_cols, key=lambda x: row[x]).replace(" (%)", "")
+                    sektor_dominan = max(sektor_cols, key=lambda x: row[x]).replace(" (%)", "").lower()
                 
-                    # ==== Interpretasi dasar ====
+                    # ===== Interpretasi dasar =====
                     if cluster_id == -1:
                         interpretasi = f"""
                 **Klaster {cluster_id} (Noise)**  
@@ -505,17 +508,17 @@ elif menu == 'Klasterisasi':
                 Karena provinsi-provinsi ini memiliki karakteristik yang dianggap **berbeda secara signifikan** dari mayoritas lainnya.  
                 Penduduk usia produktif tergolong **{usia_label}**.  
                 Tingkat pendidikan paling dominan: **{kategori_pendidikan}**.  
-                Sektor ekonomi dominan: **{sektor_dominan.lower()}**.
+                Sektor ekonomi dominan: **{sektor_dominan}**.
                 """
                     else:
                         interpretasi = f"""
                 **Klaster {cluster_id}**  
                 Klaster ini terdiri dari {jumlah_prov} provinsi, dengan karakteristik penduduk usia produktif yang tergolong **{usia_label}**.  
                 Dilihat dari tingkat pendidikan, klaster ini didominasi oleh pendidikan **{kategori_pendidikan}**.  
-                Sektor ekonomi yang paling dominan di klaster ini adalah sektor **{sektor_dominan.lower()}**.
+                Sektor ekonomi yang paling dominan di klaster ini adalah sektor **{sektor_dominan}**.
                 """
                 
-                    # ==== Penilaian tambahan untuk semua klaster termasuk Noise ====
+                    # ===== Penilaian tambahan untuk semua klaster =====
                     if usia_label == 'tinggi' and kategori_pendidikan in ['menengah SMA', 'tinggi'] and sektor_dominan == 'tersier':
                         interpretasi += "\n➡️ Wilayah ini memiliki kesiapan dalam daya saing tenaga kerja."
                     elif usia_label == 'tinggi' and kategori_pendidikan in ['rendah', 'menengah SMP'] and sektor_dominan == 'tersier':
@@ -540,6 +543,7 @@ elif menu == 'Klasterisasi':
                 csv = merged_df.to_csv(index=False)
 
                 st.download_button("⬇️ Download Hasil Klasterisasi", csv, "hasil_klaster.csv", "text/csv")
+
 
 
 
