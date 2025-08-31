@@ -498,9 +498,9 @@ elif menu == 'Klasterisasi':
                     for _, row in df_combined.iterrows():
                         usia = row['Usia Produktif (%)']
                         
-                        if usia >= 0.8 * max_usia:
+                        if usia >= 1.0 * max_usia:
                             usia_label = "tinggi"
-                        elif usia >= 0.5 * max_usia:
+                        elif usia >= 0.8 * max_usia:
                             usia_label = "sedang"
                         else:
                             usia_label = "rendah"
@@ -550,6 +550,7 @@ elif menu == 'Klasterisasi':
                 csv = merged_df.to_csv(index=False)
 
                 st.download_button("⬇️ Download Hasil Klasterisasi", csv, "hasil_klaster.csv", "text/csv")
+
 
 
 
