@@ -460,9 +460,12 @@ elif menu == 'Klasterisasi':
                 # Reset index agar 'Cluster' menjadi kolom biasa untuk iterasi
                 summary_df_reset = summary_df.reset_index()
 
+                # Gabungkan kedua DataFrame berdasarkan 'Cluster'
+                df_combined = summary_df_reset.merge(summary_df_final, on=['Cluster', 'Jumlah Provinsi'], suffixes=('_abs', '_pct'))
+
                 st.subheader("🧠 Interpretasi Otomatis Tiap Klaster")
 
-                for _, row in summary_df_reset.iterrows():
+                for _, row in df_combined.iterrows():
                     cluster_id = int(row['Cluster'])
                     jumlah_prov = int(row['Jumlah Provinsi'])
 
@@ -532,6 +535,7 @@ elif menu == 'Klasterisasi':
                 csv = merged_df.to_csv(index=False)
 
                 st.download_button("⬇️ Download Hasil Klasterisasi", csv, "hasil_klaster.csv", "text/csv")
+
 
 
 
