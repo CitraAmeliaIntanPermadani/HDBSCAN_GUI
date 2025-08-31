@@ -505,14 +505,14 @@ elif menu == 'Klasterisasi':
                 Karena provinsi-provinsi ini memiliki karakteristik yang dianggap **berbeda secara signifikan** dari mayoritas lainnya.  
                 Penduduk usia produktif tergolong **{usia_label}**.  
                 Tingkat pendidikan paling dominan: **{kategori_pendidikan}**.  
-                Sektor ekonomi dominan: **{sektor_dominan}**.
+                Sektor ekonomi dominan: **{sektor_dominan.lower}**.
                 """
                     else:
                         interpretasi = f"""
                 **Klaster {cluster_id}**  
                 Klaster ini terdiri dari {jumlah_prov} provinsi, dengan karakteristik penduduk usia produktif yang tergolong **{usia_label}**.  
                 Dilihat dari tingkat pendidikan, klaster ini didominasi oleh pendidikan **{kategori_pendidikan}**.  
-                Sektor ekonomi yang paling dominan di klaster ini adalah sektor **{sektor_dominan}**.
+                Sektor ekonomi yang paling dominan di klaster ini adalah sektor **{sektor_dominan.lower}**.
                 """
                 
                     # ==== Penilaian tambahan untuk semua klaster termasuk Noise ====
@@ -540,6 +540,7 @@ elif menu == 'Klasterisasi':
                 csv = merged_df.to_csv(index=False)
 
                 st.download_button("⬇️ Download Hasil Klasterisasi", csv, "hasil_klaster.csv", "text/csv")
+
 
 
 
