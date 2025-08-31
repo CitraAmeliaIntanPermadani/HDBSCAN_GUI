@@ -543,11 +543,12 @@ elif menu == 'Klasterisasi':
 
                 # Download hasil klasterisasi
                 merged_df = df[['kode', 'Provinsi', 'Cluster']]
-                merged_df['Interpretasi'] = interpretasi_list
+                merged_df['interpretasi'] = interpretasi_list
                 
                 csv = merged_df.to_csv(index=False)
 
                 st.download_button("⬇️ Download Hasil Klasterisasi", csv, "hasil_klaster.csv", "text/csv")
+
 
 
 
