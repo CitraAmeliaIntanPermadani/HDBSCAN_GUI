@@ -528,7 +528,7 @@ elif menu == 'Klasterisasi':
                     elif usia_label == 'sedang' and kategori_pendidikan in ['menengah SMA', 'tinggi'] and sektor_dominan == 'tersier':
                         interpretasi += "\n➡️ Wilayah ini memiliki kesiapan yang baik."
                     elif usia_label == 'sedang' and kategori_pendidikan in ['menengah SMP', 'rendah'] and sektor_dominan == 'primer':
-                        interpretasi += "\n➡️ Wilayah ini memiliki kesiapan sedang, perlu peningkatan di sektor pekerjaan primer."
+                        interpretasi += "\n➡️ Wilayah ini memiliki kesiapan rendah, perlu peningkatan di pendidikan dan sektor pekerjaan primer."
                     elif usia_label == 'rendah' and kategori_pendidikan in ['rendah', 'menengah SMP'] and sektor_dominan in ['primer', 'sekunder']:
                         interpretasi += "\n➡️ Wilayah ini memiliki kesiapan rendah, perlu perbaikan menyeluruh pada usia produktif, pendidikan, dan sektor pekerjaan."
                     elif usia_label == 'rendah' and kategori_pendidikan in ['menengah SMA', 'tinggi'] and sektor_dominan == 'tersier':
@@ -543,6 +543,7 @@ elif menu == 'Klasterisasi':
                 csv = merged_df.to_csv(index=False)
 
                 st.download_button("⬇️ Download Hasil Klasterisasi", csv, "hasil_klaster.csv", "text/csv")
+
 
 
 
