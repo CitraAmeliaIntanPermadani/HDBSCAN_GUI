@@ -433,49 +433,29 @@ elif menu == 'Klasterisasi':
                     'Usia Produktif', '<= SD/MI', 'SMP/MTS', 'SMA/SMK',
                     'Perguruan Tinggi', 'Primer', 'Sekunder', 'Tersier'
                 ]
-
                 # Pastikan hanya ambil kolom yang ada
                 available_cols = [col for col in summary_cols if col in df.columns]
-
                 # 1. Buat ringkasan per klaster (pakai sum karena data absolut)
                 summary_df = df.groupby('Cluster')[available_cols].sum()
-
                 # 2. Hitung jumlah provinsi per klaster
                 summary_df['Jumlah Provinsi'] = df.groupby('Cluster').size()
+                # 3. Hitung persentase tiap kolom terhadap total baris (jumlah absolut per klaster)
+                cluster_percentage = summary_df.div(summary_df.sum(axis=1), axis=0) * 100
+                # 4. Tambahkan kolom 'Jumlah Provinsi' ke cluster_percentage (karena tidak dihitung dalam pembagian)
+                cluster_percentage['Jumlah Provinsi'] = summary_df['Jumlah Provinsi']
+                # 5. Rename kolom persentase dengan menambahkan ' (%)'
+                cluster_percentage = cluster_percentage.rename(columns=lambda x: x + ' (%)' if x in available_cols else x)
+                # 6. Reset index agar 'Cluster' menjadi kolom biasa
+                cluster_percentage = cluster_percentage.reset_index()
+                # 7. Pilih dan urutkan kolom yang ingin ditampilkan
+                cols_order = ['Cluster', 'Jumlah Provinsi'] + [col + ' (%)' for col in available_cols]
+                summary_df_final = cluster_percentage[cols_order]
 
-                # 3. Hitung total untuk pendidikan dan sektor per klaster
-                pendidikan_cols = ['<= SD/MI', 'SMP/MTS', 'SMA/SMK', 'Perguruan Tinggi']
-                sektor_cols = ['Primer', 'Sekunder', 'Tersier']
-
-                summary_df['Total Pendidikan'] = summary_df[pendidikan_cols].sum(axis=1)
-                summary_df['Total Sektor'] = summary_df[sektor_cols].sum(axis=1)
-
-                # 4. Hitung persentase per kategori di dalam masing-masing klaster
-                for col in pendidikan_cols:
-                    summary_df[col + " (%)"] = (summary_df[col] / summary_df['Total Pendidikan']) * 100
-
-                for col in sektor_cols:
-                    summary_df[col + " (%)"] = (summary_df[col] / summary_df['Total Sektor']) * 100
-
-                # 5. Hitung persentase Usia Produktif terhadap total keseluruhan
-                total_usia = summary_df['Usia Produktif'].sum()
-                summary_df['Usia Produktif (%)'] = (summary_df['Usia Produktif'] / total_usia) * 100
-
-                # 6. Hapus kolom helper + absolut yang tidak ingin ditampilkan
-                summary_df = summary_df.drop(
-                    columns=pendidikan_cols + sektor_cols + ['Total Pendidikan', 'Total Sektor'])
-
-                # Reset index dan atur urutan kolom
-                summary_df = summary_df.reset_index()
-                summary_df = summary_df[['Cluster', 'Jumlah Provinsi', 'Usia Produktif (%)',
-                                         '<= SD/MI (%)', 'SMP/MTS (%)', 'SMA/SMK (%)', 'Perguruan Tinggi (%)',
-                                         'Primer (%)', 'Sekunder (%)', 'Tersier (%)']]
-
-                # print(summary_df)
+                # print(summary_df_final)
 
                 # Tampilkan
                 st.subheader("📊 Ringkasan Statistik Persentase per Klaster")
-                st.dataframe(summary_df, use_container_width=True)
+                st.dataframe(summary_df_final, use_container_width=True)
 
                 st.subheader("🧠 Interpretasi Otomatis Tiap Klaster")
 
@@ -549,6 +529,7 @@ elif menu == 'Klasterisasi':
                 csv = merged_df.to_csv(index=False)
 
                 st.download_button("⬇️ Download Hasil Klasterisasi", csv, "hasil_klaster.csv", "text/csv")
+
 
 
 
