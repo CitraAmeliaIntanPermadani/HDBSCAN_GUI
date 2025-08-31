@@ -518,28 +518,28 @@ elif menu == 'Klasterisasi':
                 
                     # Penilaian tambahan
                     if usia_label == 'tinggi' and kategori_pendidikan in ['menengah SMA', 'tinggi'] and sektor_dominan == 'tersier':
-                        interpretasi = "➡️ Wilayah ini memiliki kesiapan dalam daya saing tenaga kerja."
+                        interpretasi += "\n➡️ Wilayah ini memiliki kesiapan dalam daya saing tenaga kerja."
                         
                     elif usia_label == 'tinggi' and kategori_pendidikan in ['rendah', 'menengah SMP'] and sektor_dominan == 'tersier':
-                        interpretasi = "➡️ Wilayah ini memiliki kesiapan awal, namun perlu perbaikan dalam pendidikan."
+                        interpretasi += "\n➡️ Wilayah ini memiliki kesiapan awal, namun perlu perbaikan dalam pendidikan."
                     
                     elif usia_label == 'tinggi' and kategori_pendidikan in ['rendah', 'menengah SMP'] and sektor_dominan in ['primer', 'sekunder']:
-                        interpretasi = "➡️ Wilayah ini memiliki kesiapan awal, namun perlu perbaikan dalam pendidikan dan sektor pekerjaan."
+                        interpretasi += "\n➡️ Wilayah ini memiliki kesiapan awal, namun perlu perbaikan dalam pendidikan dan sektor pekerjaan."
                     
                     elif usia_label == 'sedang' and kategori_pendidikan in ['menengah SMA', 'tinggi'] and sektor_dominan == 'tersier':
-                        interpretasi = "➡️ Wilayah ini memiliki kesiapan yang baik."
+                        interpretasi += "\n➡️ Wilayah ini memiliki kesiapan yang baik."
                     
                     elif usia_label == 'sedang' and kategori_pendidikan in ['menengah SMP', 'rendah'] and sektor_dominan == 'primer':
-                        interpretasi = "➡️ Wilayah ini memiliki kesiapan sedang, perlu peningkatan di sektor pekerjaan primer."
+                        interpretasi += "\n➡️ Wilayah ini memiliki kesiapan sedang, perlu peningkatan di sektor pekerjaan primer."
                     
                     elif usia_label == 'rendah' and kategori_pendidikan in ['rendah', 'menengah SMP'] and sektor_dominan in ['primer', 'sekunder']:
-                        interpretasi = "➡️ Wilayah ini memiliki kesiapan rendah, perlu perbaikan menyeluruh pada usia produktif, pendidikan, dan sektor pekerjaan."
+                        interpretasi += "\n➡️ Wilayah ini memiliki kesiapan rendah, perlu perbaikan menyeluruh pada usia produktif, pendidikan, dan sektor pekerjaan."
                     
                     elif usia_label == 'rendah' and kategori_pendidikan in ['menengah SMA', 'tinggi'] and sektor_dominan == 'tersier':
-                        interpretasi = "➡️ Wilayah ini memiliki potensi, namun proporsi usia produktif rendah perlu diperhatikan."
+                        interpretasi += "\n➡️ Wilayah ini memiliki potensi, namun proporsi usia produktif rendah perlu diperhatikan."
                     
                     else:
-                        interpretasi = "➡️ Klaster ini menunjukkan komposisi yang relatif seimbang, namun perlu pemantauan lebih lanjut untuk peningkatan daya saing tenaga kerja."
+                        interpretasi += "\n➡️ Klaster ini menunjukkan komposisi yang relatif seimbang, namun perlu pemantauan lebih lanjut untuk peningkatan daya saing tenaga kerja."
                 
                     st.markdown(interpretasi)
 
@@ -548,6 +548,7 @@ elif menu == 'Klasterisasi':
                 csv = merged_df.to_csv(index=False)
 
                 st.download_button("⬇️ Download Hasil Klasterisasi", csv, "hasil_klaster.csv", "text/csv")
+
 
 
 
