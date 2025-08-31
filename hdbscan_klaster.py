@@ -465,6 +465,9 @@ elif menu == 'Klasterisasi':
 
                 st.subheader("🧠 Interpretasi Otomatis Tiap Klaster")
 
+                # Buat list untuk menyimpan interpretasi tiap baris
+                interpretasi_list = []
+
                 # Hitung max usia produktif sekali saja
                 max_usia = df_combined['Usia Produktif (%)'].max()
                 
@@ -540,9 +543,12 @@ elif menu == 'Klasterisasi':
 
                 # Download hasil klasterisasi
                 merged_df = df[['kode', 'Provinsi', 'Cluster']]
+                merged_df['Interpretasi'] = interpretasi_list
+                
                 csv = merged_df.to_csv(index=False)
 
                 st.download_button("⬇️ Download Hasil Klasterisasi", csv, "hasil_klaster.csv", "text/csv")
+
 
 
 
