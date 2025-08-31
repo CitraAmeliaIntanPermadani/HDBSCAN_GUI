@@ -457,6 +457,9 @@ elif menu == 'Klasterisasi':
                 st.subheader("📊 Ringkasan Statistik Persentase per Klaster")
                 st.dataframe(summary_df_final, use_container_width=True)
 
+                # Reset index agar 'Cluster' menjadi kolom biasa untuk iterasi
+                summary_df_reset = summary_df.reset_index()
+
                 st.subheader("🧠 Interpretasi Otomatis Tiap Klaster")
 
                 for _, row in summary_df.iterrows():
@@ -529,6 +532,7 @@ elif menu == 'Klasterisasi':
                 csv = merged_df.to_csv(index=False)
 
                 st.download_button("⬇️ Download Hasil Klasterisasi", csv, "hasil_klaster.csv", "text/csv")
+
 
 
 
