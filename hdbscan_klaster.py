@@ -538,16 +538,19 @@ elif menu == 'Klasterisasi':
                         interpretasi += "\n➡️ Wilayah ini memiliki potensi, namun proporsi usia produktif rendah perlu diperhatikan."
                     else:
                         interpretasi += "\n➡️ Klaster ini menunjukkan komposisi yang relatif seimbang, namun perlu pemantauan lebih lanjut untuk peningkatan daya saing tenaga kerja."
-                
+
+                    interpretasi_list.append(interpretasi)
+                    
                     st.markdown(interpretasi)
 
                 # Download hasil klasterisasi
                 merged_df = df[['kode', 'Provinsi', 'Cluster']]
-                merged_df['interpretasi'] = interpretasi_list
+                merged_df['Interpretasi'] = interpretasi_list
                 
                 csv = merged_df.to_csv(index=False)
 
                 st.download_button("⬇️ Download Hasil Klasterisasi", csv, "hasil_klaster.csv", "text/csv")
+
 
 
 
