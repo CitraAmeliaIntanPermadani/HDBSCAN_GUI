@@ -543,22 +543,30 @@ elif menu == 'Klasterisasi':
                     
                     st.markdown(interpretasi)
 
-                # Download hasil klasterisasi
-                # Buat dictionary Cluster → Interpretasi
-                cluster_interpretasi_dict = dict(cluster_interpretasi_list)
-                
-                # Gabungkan ke df per provinsi
+                # Data untuk download
                 merged_df = df[['kode', 'Provinsi', 'Cluster']].copy()
-                merged_df['Interpretasi'] = merged_df['Cluster'].map(cluster_interpretasi_dict)
-                                
-                csv = merged_df.to_csv(index=False)
+                merged_df_with_interpretasi = merged_df.copy()
+                merged_df_with_interpretasi['Interpretasi'] = merged_df_with_interpretasi['Cluster'].map(cluster_interpretasi_dict)
+                
+                # Tombol download 1: tanpa interpretasi
+                csv_plain = merged_df.to_csv(index=False)
+                st.download_button(
+                    "⬇️ Download Hasil Klasterisasi (tanpa interpretasi)",
+                    csv_plain,
+                    "hasil_klaster.csv",
+                    "text/csv"
+                )
+                
+                # Tombol download 2: dengan interpretasi
+                csv_interpretasi = merged_df_with_interpretasi.to_csv(index=False)
                 st.download_button(
                     "⬇️ Download Hasil Klasterisasi dengan Interpretasi",
-                    csv,
+                    csv_interpretasi,
                     "hasil_klaster_interpretasi.csv",
                     "text/csv"
                 )
                 
+
 
 
 
