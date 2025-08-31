@@ -517,18 +517,29 @@ elif menu == 'Klasterisasi':
                 """
                 
                     # Penilaian tambahan
-                    if kategori_pendidikan == 'rendah' and usia_label == 'tinggi':
-                        interpretasi += "\n➡️ Wilayah ini memiliki tenaga kerja usia produktif yang besar, namun masih didominasi oleh pendidikan rendah. Ini bisa menjadi target prioritas untuk peningkatan kualitas SDM."
-                    elif kategori_pendidikan in ['menengah SMP', 'menengah SMA'] and usia_label == 'tinggi':
-                        interpretasi += "\n➡️ Wilayah ini memiliki tenaga kerja usia produktif yang besar dan struktur pendidikan yang cukup baik, namun peningkatan ke jenjang pendidikan tinggi masih diperlukan untuk mendukung pengembangan SDM jangka panjang."
-                    elif kategori_pendidikan in ['menengah SMP', 'menengah SMA'] and usia_label == 'rendah':
-                        interpretasi += "\n➡️ Meski struktur pendidikan sudah cukup baik, proporsi usia produktif masih rendah. Hal ini bisa menunjukkan tantangan regenerasi tenaga kerja."
-                    elif kategori_pendidikan == 'tinggi' and usia_label == 'tinggi':
-                        interpretasi += "\n➡️ Wilayah ini menunjukkan kesiapan SDM yang kuat, baik dari segi pendidikan maupun usia produktif — potensi besar dalam pembangunan ekonomi modern."
-                    elif usia_label == 'rendah':
-                        interpretasi += "\n➡️ Proporsi usia produktif yang rendah dapat menjadi perhatian, terutama jika ingin mendorong produktivitas wilayah secara jangka panjang."
+                    if usia_label == 'tinggi' and kategori_pendidikan in ['menengah SMA', 'tinggi'] and sektor_dominan == 'tersier':
+                        interpretasi = "➡️ Wilayah ini memiliki kesiapan dalam daya saing tenaga kerja."
+                        
+                    elif usia_label == 'tinggi' and kategori_pendidikan in ['rendah', 'menengah SMP'] and sektor_dominan == 'tersier':
+                        interpretasi = "➡️ Wilayah ini memiliki kesiapan awal, namun perlu perbaikan dalam pendidikan."
+                    
+                    elif usia_label == 'tinggi' and kategori_pendidikan in ['rendah', 'menengah SMP'] and sektor_dominan in ['primer', 'sekunder']:
+                        interpretasi = "➡️ Wilayah ini memiliki kesiapan awal, namun perlu perbaikan dalam pendidikan dan sektor pekerjaan."
+                    
+                    elif usia_label == 'sedang' and kategori_pendidikan in ['menengah SMA', 'tinggi'] and sektor_dominan == 'tersier':
+                        interpretasi = "➡️ Wilayah ini memiliki kesiapan yang baik."
+                    
+                    elif usia_label == 'sedang' and kategori_pendidikan in ['menengah SMP', 'rendah'] and sektor_dominan == 'primer':
+                        interpretasi = "➡️ Wilayah ini memiliki kesiapan sedang, perlu peningkatan di sektor pekerjaan primer."
+                    
+                    elif usia_label == 'rendah' and kategori_pendidikan in ['rendah', 'menengah SMP'] and sektor_dominan in ['primer', 'sekunder']:
+                        interpretasi = "➡️ Wilayah ini memiliki kesiapan rendah, perlu perbaikan menyeluruh pada usia produktif, pendidikan, dan sektor pekerjaan."
+                    
+                    elif usia_label == 'rendah' and kategori_pendidikan in ['menengah SMA', 'tinggi'] and sektor_dominan == 'tersier':
+                        interpretasi = "➡️ Wilayah ini memiliki potensi, namun proporsi usia produktif rendah perlu diperhatikan."
+                    
                     else:
-                        interpretasi += "\n➡️ Klaster ini menunjukkan komposisi yang relatif seimbang antara pendidikan dan usia produktif."
+                        interpretasi = "➡️ Klaster ini menunjukkan komposisi yang relatif seimbang, namun perlu pemantauan lebih lanjut untuk peningkatan daya saing tenaga kerja."
                 
                     st.markdown(interpretasi)
 
@@ -537,6 +548,7 @@ elif menu == 'Klasterisasi':
                 csv = merged_df.to_csv(index=False)
 
                 st.download_button("⬇️ Download Hasil Klasterisasi", csv, "hasil_klaster.csv", "text/csv")
+
 
 
 
