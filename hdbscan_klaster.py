@@ -463,7 +463,7 @@ elif menu == 'Klasterisasi':
                 # Gabungkan kedua DataFrame berdasarkan 'Cluster'
                 df_combined = summary_df_reset.merge(summary_df_final, on=['Cluster', 'Jumlah Provinsi'], suffixes=('_abs', '_pct'))
 
-               st.subheader("🧠 Interpretasi Otomatis Tiap Klaster")
+                st.subheader("🧠 Interpretasi Otomatis Tiap Klaster")
 
                 max_usia = df_combined['Usia Produktif (%)'].max()
                 
@@ -530,6 +530,7 @@ elif menu == 'Klasterisasi':
                 csv = merged_df.to_csv(index=False)
 
                 st.download_button("⬇️ Download Hasil Klasterisasi", csv, "hasil_klaster.csv", "text/csv")
+
 
 
 
