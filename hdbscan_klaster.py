@@ -462,7 +462,7 @@ elif menu == 'Klasterisasi':
 
                 st.subheader("🧠 Interpretasi Otomatis Tiap Klaster")
 
-                for _, row in summary_df.iterrows():
+                for _, row in summary_df_reset.iterrows():
                     cluster_id = int(row['Cluster'])
                     jumlah_prov = int(row['Jumlah Provinsi'])
 
@@ -532,6 +532,7 @@ elif menu == 'Klasterisasi':
                 csv = merged_df.to_csv(index=False)
 
                 st.download_button("⬇️ Download Hasil Klasterisasi", csv, "hasil_klaster.csv", "text/csv")
+
 
 
 
