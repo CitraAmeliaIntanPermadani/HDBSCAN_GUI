@@ -543,7 +543,10 @@ elif menu == 'Klasterisasi':
                     
                     st.markdown(interpretasi)
 
-                # Data untuk download
+                # Buat dictionary Cluster → Interpretasi
+                cluster_interpretasi_dict = dict(cluster_interpretasi_list)
+
+                 # Data untuk download
                 merged_df = df[['kode', 'Provinsi', 'Cluster']].copy()
                 merged_df_with_interpretasi = merged_df.copy()
                 merged_df_with_interpretasi['Interpretasi'] = merged_df_with_interpretasi['Cluster'].map(cluster_interpretasi_dict)
@@ -566,6 +569,7 @@ elif menu == 'Klasterisasi':
                     "text/csv"
                 )
                 
+
 
 
 
