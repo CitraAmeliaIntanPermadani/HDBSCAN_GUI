@@ -469,16 +469,15 @@ elif menu == 'Klasterisasi':
                     cluster_id = int(row['Cluster'])
                     jumlah_prov = int(row['Jumlah Provinsi'])
 
-                    if cluster_id == -1:
-                        st.markdown(f"""
-                **Klaster {cluster_id} (Noise)**  
-                Klaster ini terdiri dari {jumlah_prov} provinsi yang **tidak dimasukkan ke dalam klaster manapun oleh HDBSCAN**.  
-                Provinsi-provinsi ini memiliki karakteristik yang dianggap **berbeda secara signifikan** dari mayoritas lainnya.
-                Klaster ini terdiri dari {jumlah_prov} provinsi, dengan karakteristik penduduk usia produktif yang tergolong **{usia_label}**.  
-                Dilihat dari tingkat pendidikan, klaster ini didominasi oleh pendidikan **{kategori_pendidikan}**.  
-                Sektor ekonomi yang paling dominan di klaster ini adalah sektor **{sektor_dominan.lower()}**.
-                """)
-                        continue
+                #     if cluster_id == -1:
+                #         st.markdown(f"""
+                # **Klaster {cluster_id} (Noise)**  
+                # Klaster ini terdiri dari {jumlah_prov} provinsi yang **tidak dimasukkan ke dalam klaster manapun oleh HDBSCAN**.  
+                # Provinsi-provinsi ini memiliki karakteristik yang dianggap **berbeda secara signifikan** dari mayoritas lainnya.
+                # Klaster ini terdiri dari {jumlah_prov} provinsi, dengan karakteristik penduduk usia produktif yang tergolong **{usia_label}**.  
+                # Dilihat dari tingkat pendidikan, klaster ini didominasi oleh pendidikan **{kategori_pendidikan}**.  
+                # Sektor ekonomi yang paling dominan di klaster ini adalah sektor **{sektor_dominan.lower()}**.
+                # """)
 
                     # Agregasi pendidikan
                     pend_rendah = row['<= SD/MI (%)']
@@ -508,6 +507,17 @@ elif menu == 'Klasterisasi':
                     sektor_dominan = sektor_dominan.replace(" (%)", "")
 
                     # Susun interpretasi
+                    if cluster_id == -1:
+                        st.markdown(f"""
+                **Klaster {cluster_id} (Noise)**  
+                Klaster ini terdiri dari {jumlah_prov} provinsi yang **tidak dimasukkan ke dalam klaster manapun oleh HDBSCAN**.  
+                Provinsi-provinsi ini memiliki karakteristik yang dianggap **berbeda secara signifikan** dari mayoritas lainnya.
+                Klaster ini terdiri dari {jumlah_prov} provinsi, dengan karakteristik penduduk usia produktif yang tergolong **{usia_label}**.  
+                Dilihat dari tingkat pendidikan, klaster ini didominasi oleh pendidikan **{kategori_pendidikan}**.  
+                Sektor ekonomi yang paling dominan di klaster ini adalah sektor **{sektor_dominan.lower()}**.
+                """)
+                        continue
+                        
                     interpretasi = f"""
                 **Klaster {cluster_id}**  
                 Klaster ini terdiri dari {jumlah_prov} provinsi, dengan karakteristik penduduk usia produktif yang tergolong **{usia_label}**.  
@@ -536,6 +546,7 @@ elif menu == 'Klasterisasi':
                 csv = merged_df.to_csv(index=False)
 
                 st.download_button("⬇️ Download Hasil Klasterisasi", csv, "hasil_klaster.csv", "text/csv")
+
 
 
 
