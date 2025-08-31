@@ -473,9 +473,15 @@ elif menu == 'Klasterisasi':
                 
                     # Pendidikan agregat
                     pend_rendah = row['<= SD/MI (%)']
-                    pend_menengah = row['SMP/MTS (%)'] + row['SMA/SMK (%)']
+                    pend_menengah_SMP = row['SMP/MTS (%)']
+                    pend_menengah_SMA = row['SMA/SMK (%)']
                     pend_tinggi = row['Perguruan Tinggi (%)']
-                    pendidikan_agregat = {'rendah': pend_rendah, 'menengah': pend_menengah, 'tinggi': pend_tinggi}
+                    pendidikan_agregat = {
+                        'rendah': pend_rendah,
+                        'menengah SMP': pend_menengah_SMP,
+                        'menengah SMA': pend_menengah_SMA,
+                        'tinggi': pend_tinggi
+                    }
                     kategori_pendidikan = max(pendidikan_agregat, key=pendidikan_agregat.get)
                 
                     # Usia
@@ -495,7 +501,8 @@ elif menu == 'Klasterisasi':
                     if cluster_id == -1:
                         st.markdown(f"""
                 **Klaster {cluster_id} (Noise)**  
-                Klaster ini terdiri dari {jumlah_prov} provinsi yang **tidak dimasukkan ke dalam klaster manapun oleh HDBSCAN**.  
+                Klaster ini terdiri dari {jumlah_prov} provinsi yang **tidak dimasukkan ke dalam klaster manapun oleh HDBSCAN**.
+                Karena Pprovinsi-provinsi ini memiliki karakteristik yang dianggap **berbeda secara signifikan** dari mayoritas lainnya**.
                 Penduduk usia produktif tergolong **{usia_label}**.  
                 Tingkat pendidikan paling dominan: **{kategori_pendidikan}**.  
                 Sektor ekonomi dominan: **{sektor_dominan.lower()}**.
@@ -512,9 +519,9 @@ elif menu == 'Klasterisasi':
                     # Penilaian tambahan
                     if kategori_pendidikan == 'rendah' and usia_label == 'tinggi':
                         interpretasi += "\n➡️ Wilayah ini memiliki tenaga kerja usia produktif yang besar, namun masih didominasi oleh pendidikan rendah. Ini bisa menjadi target prioritas untuk peningkatan kualitas SDM."
-                    elif kategori_pendidikan == 'menengah' and usia_label == 'tinggi':
+                    elif kategori_pendidikan in ['menengah SMP', 'menengah SMA'] and usia_label == 'tinggi':
                         interpretasi += "\n➡️ Wilayah ini memiliki tenaga kerja usia produktif yang besar dan struktur pendidikan yang cukup baik, namun peningkatan ke jenjang pendidikan tinggi masih diperlukan untuk mendukung pengembangan SDM jangka panjang."
-                    elif kategori_pendidikan == 'menengah' and usia_label == 'rendah':
+                    elif kategori_pendidikan in ['menengah SMP', 'menengah SMA'] and usia_label == 'rendah':
                         interpretasi += "\n➡️ Meski struktur pendidikan sudah cukup baik, proporsi usia produktif masih rendah. Hal ini bisa menunjukkan tantangan regenerasi tenaga kerja."
                     elif kategori_pendidikan == 'tinggi' and usia_label == 'tinggi':
                         interpretasi += "\n➡️ Wilayah ini menunjukkan kesiapan SDM yang kuat, baik dari segi pendidikan maupun usia produktif — potensi besar dalam pembangunan ekonomi modern."
@@ -530,6 +537,7 @@ elif menu == 'Klasterisasi':
                 csv = merged_df.to_csv(index=False)
 
                 st.download_button("⬇️ Download Hasil Klasterisasi", csv, "hasil_klaster.csv", "text/csv")
+
 
 
 
