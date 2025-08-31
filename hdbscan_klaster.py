@@ -473,9 +473,10 @@ elif menu == 'Klasterisasi':
                         st.markdown(f"""
                 **Klaster {cluster_id} (Noise)**  
                 Klaster ini terdiri dari {jumlah_prov} provinsi yang **tidak dimasukkan ke dalam klaster manapun oleh HDBSCAN**.  
-                Provinsi-provinsi ini memiliki karakteristik yang dianggap **berbeda secara signifikan** dari mayoritas lainnya.  
-                Hal ini bisa disebabkan oleh **kombinasi unik dalam pendidikan, struktur ekonomi, atau distribusi usia produktif** yang tidak menyerupai klaster manapun.  
-                Wilayah ini bisa mencerminkan provinsi-provinsi **metropolitan, ekstrem, atau sangat heterogen**, dan layak diteliti lebih lanjut secara individual.
+                Provinsi-provinsi ini memiliki karakteristik yang dianggap **berbeda secara signifikan** dari mayoritas lainnya.
+                Klaster ini terdiri dari {jumlah_prov} provinsi, dengan karakteristik penduduk usia produktif yang tergolong **{usia_label}**.  
+                Dilihat dari tingkat pendidikan, klaster ini didominasi oleh pendidikan **{kategori_pendidikan}**.  
+                Sektor ekonomi yang paling dominan di klaster ini adalah sektor **{sektor_dominan.lower()}**.
                 """)
                         continue
 
@@ -535,6 +536,7 @@ elif menu == 'Klasterisasi':
                 csv = merged_df.to_csv(index=False)
 
                 st.download_button("⬇️ Download Hasil Klasterisasi", csv, "hasil_klaster.csv", "text/csv")
+
 
 
 
