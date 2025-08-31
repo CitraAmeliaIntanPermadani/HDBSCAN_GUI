@@ -497,46 +497,39 @@ elif menu == 'Klasterisasi':
                     sektor_cols = ['Primer (%)', 'Sekunder (%)', 'Tersier (%)']
                     sektor_dominan = max(sektor_cols, key=lambda x: row[x]).replace(" (%)", "")
                 
-                    # Interpretasi
+                    # ==== Interpretasi dasar ====
                     if cluster_id == -1:
-                        st.markdown(f"""
+                        interpretasi = f"""
                 **Klaster {cluster_id} (Noise)**  
                 Klaster ini terdiri dari {jumlah_prov} provinsi yang **tidak dimasukkan ke dalam klaster manapun oleh HDBSCAN**.  
                 Karena provinsi-provinsi ini memiliki karakteristik yang dianggap **berbeda secara signifikan** dari mayoritas lainnya.  
                 Penduduk usia produktif tergolong **{usia_label}**.  
                 Tingkat pendidikan paling dominan: **{kategori_pendidikan}**.  
-                Sektor ekonomi dominan: **{sektor_dominan.lower()}**.
-                """)
+                Sektor ekonomi dominan: **{sektor_dominan}**.
+                """
                     else:
                         interpretasi = f"""
                 **Klaster {cluster_id}**  
                 Klaster ini terdiri dari {jumlah_prov} provinsi, dengan karakteristik penduduk usia produktif yang tergolong **{usia_label}**.  
                 Dilihat dari tingkat pendidikan, klaster ini didominasi oleh pendidikan **{kategori_pendidikan}**.  
-                Sektor ekonomi yang paling dominan di klaster ini adalah sektor **{sektor_dominan.lower()}**.
+                Sektor ekonomi yang paling dominan di klaster ini adalah sektor **{sektor_dominan}**.
                 """
                 
-                    # Penilaian tambahan
+                    # ==== Penilaian tambahan untuk semua klaster termasuk Noise ====
                     if usia_label == 'tinggi' and kategori_pendidikan in ['menengah SMA', 'tinggi'] and sektor_dominan == 'tersier':
                         interpretasi += "\n➡️ Wilayah ini memiliki kesiapan dalam daya saing tenaga kerja."
-                        
                     elif usia_label == 'tinggi' and kategori_pendidikan in ['rendah', 'menengah SMP'] and sektor_dominan == 'tersier':
                         interpretasi += "\n➡️ Wilayah ini memiliki kesiapan awal, namun perlu perbaikan dalam pendidikan."
-                    
                     elif usia_label == 'tinggi' and kategori_pendidikan in ['rendah', 'menengah SMP'] and sektor_dominan in ['primer', 'sekunder']:
                         interpretasi += "\n➡️ Wilayah ini memiliki kesiapan awal, namun perlu perbaikan dalam pendidikan dan sektor pekerjaan."
-                    
                     elif usia_label == 'sedang' and kategori_pendidikan in ['menengah SMA', 'tinggi'] and sektor_dominan == 'tersier':
                         interpretasi += "\n➡️ Wilayah ini memiliki kesiapan yang baik."
-                    
                     elif usia_label == 'sedang' and kategori_pendidikan in ['menengah SMP', 'rendah'] and sektor_dominan == 'primer':
                         interpretasi += "\n➡️ Wilayah ini memiliki kesiapan sedang, perlu peningkatan di sektor pekerjaan primer."
-                    
                     elif usia_label == 'rendah' and kategori_pendidikan in ['rendah', 'menengah SMP'] and sektor_dominan in ['primer', 'sekunder']:
                         interpretasi += "\n➡️ Wilayah ini memiliki kesiapan rendah, perlu perbaikan menyeluruh pada usia produktif, pendidikan, dan sektor pekerjaan."
-                    
                     elif usia_label == 'rendah' and kategori_pendidikan in ['menengah SMA', 'tinggi'] and sektor_dominan == 'tersier':
                         interpretasi += "\n➡️ Wilayah ini memiliki potensi, namun proporsi usia produktif rendah perlu diperhatikan."
-                    
                     else:
                         interpretasi += "\n➡️ Klaster ini menunjukkan komposisi yang relatif seimbang, namun perlu pemantauan lebih lanjut untuk peningkatan daya saing tenaga kerja."
                 
@@ -547,6 +540,7 @@ elif menu == 'Klasterisasi':
                 csv = merged_df.to_csv(index=False)
 
                 st.download_button("⬇️ Download Hasil Klasterisasi", csv, "hasil_klaster.csv", "text/csv")
+
 
 
 
