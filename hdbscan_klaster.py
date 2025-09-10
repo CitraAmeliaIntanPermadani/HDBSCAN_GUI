@@ -287,7 +287,7 @@ elif menu == 'Klasterisasi':
 
                 lof = LocalOutlierFactor(n_neighbors=20, contamination='auto')
                 y_pred = lof.fit_predict(X_scaled)
-                lof_scores = -lof.negative_outlier_factor_
+                lof_scores = lof.negative_outlier_factor_
 
                 # Tandai outlier
                 df['Outlier_LOF'] = y_pred  # -1 = outlier, 1 = inlier
@@ -569,6 +569,7 @@ elif menu == 'Klasterisasi':
                     "text/csv"
                 )
                 
+
 
 
 
